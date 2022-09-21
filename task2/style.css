@@ -70,6 +70,8 @@ footer {
 }
 main {
 	font-family:Nunito-Regular;
+	max-width:960px;
+	margin:0 auto;
 }
 td {
 	text-align:center;
