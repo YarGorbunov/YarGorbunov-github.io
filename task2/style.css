@@ -67,6 +67,7 @@ footer {
 	color:black;
 	text-align:center;
 	font-family:Nunito-SemiBoldItalic;
+	max-width:960px;
 }
 main {
 	font-family:Nunito-Regular;
