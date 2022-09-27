@@ -98,7 +98,12 @@ footer p {
 }
 #tableformwrapper {
 	display:flex;
-	flex-direction:column-reverse;
+}
+#formwrapper {
+	order: 1;
+}
+#tablewrapper {
+	order: 2'
 }
 
 @media screen and (min-width:800px) {
@@ -119,8 +124,11 @@ footer p {
 		margin: 0 5px;
 		width:13vw;
 	}
-	#tableformwrapper {
-		flex-direction:column;
+	#tablewrapper {
+		order:1;
+	}
+	#formwrapper {
+		order:2;
 	}
 	main {
 		font-size: 16px;
