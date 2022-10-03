@@ -1,0 +1,87 @@
+@font-face {
+	font-family:RobotoSlab-Regular;
+	src: url(RobotoSlab-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-Regular;
+	src: url(Nunito-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-SemiBoldItalic;
+	src: url(Nunito-SemiBoldItalic.ttf);
+}
+body {
+	background: linear-gradient(to bottom, #c5ecf7, #009bc8); 
+}
+body {
+	color:#2718dc;
+}
+a:visited, a{
+	color:black;
+}
+a:hover {
+	color:white;
+}
+#img-link {
+	height:100px;
+}
+header h1 {
+	font-family:RobotoSlab-Regular;
+}
+nav {
+	max-width:200px;
+}
+nav a {
+	text-decoration:none;
+	color: aqua;
+	background-color:blue;
+	border-radius:20px;
+	font-size:20px;
+}
+nav a:visited {
+	text-decoration:none;
+	color: aqua;
+}
+nav a:hover {
+	color: white;
+	transition-duration:0.5s;
+	border-radius:10px;
+}
+footer {
+	width:100%;
+	color:black;
+	text-align:center;
+	font-family:Nunito-SemiBoldItalic;
+}
+main {
+	font-family:Nunito-Regular;
+	max-width:960px;
+	font-size: 5vw;
+}
+table {
+	max-width:35vw;
+}
+.even td {
+	background-color:#2da6d7;
+}
+.odd td {
+	background-color:lightblue;
+}
+#header {
+	max-width:960px;
+}
+
+@media screen and (min-width:576px) {
+	body {
+		background: linear-gradient(to bottom right, #c5ecf7, #009bc8); 
+	}
+	header img {
+		max-width: 20%;
+	}
+	main {
+		font-size: 16px;
+	}
+	nav {
+		max-width:960px;
+	}
+}
