@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
-	<title>Задание 4</title>
+	<title>Задание 5</title>
 	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
 	<link rel="shortcut icon" href="icon.png">
 	<meta name="viewport" content="width=device-width initial-scale=1">
+	<script src="script.js" defer></script>
 </head>
 <body class="container-fluid m-0 p-0">
 	<header class="container-fluid p-0">
@@ -191,6 +192,15 @@
 
       <input type="submit" value="Отправить">
 	</form>
+	</div>
+	<div class="col order-3">
+		<h2>Калькулятор</h2>
+		<p class="mb-0">Количество:</p>
+		<input id="amount" placeholder="Количество">
+		<p class="mb-0">Цена за единицу:</p>
+		<input id="price" placeholder="Цена за единицу"> <br>
+		<button type="button" class="my-2" id="calcbutton">Считать</button>
+		<p id="result"></p>
 	</div>
 	</div>
 	</main>
