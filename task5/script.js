@@ -18,11 +18,11 @@ function calc() {
         result.style.color="#dc3545";
     }
 	*/
-	if (amount*price!="" && !isNaN(amount*price)){
-		result.innerHTML = amount*price;
-        result.style.color="#2718dc";
-	} else {
+	if (!amount*price!="" || isNaN(amount*price) || amount==="" || price===""){
 		result.innerHTML = "Не пойдёт";
         result.style.color="#dc3545";
+	} else {
+		result.innerHTML = amount*price;
+        result.style.color="#2718dc";
 	}	
 }
