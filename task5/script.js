@@ -1,5 +1,3 @@
-let button=document.getElementById("calcbutton");
-button.addEventListener('click', calc);
 function calc() {
     let amount=document.getElementById("amount").value;
     let price=document.getElementById("price").value;
@@ -26,3 +24,8 @@ function calc() {
 	}
 	*/
 }
+
+window.addEventListener("DOMContentLoaded", function () {
+    let button = document.getElementById("calcbutton");
+    button.addEventListener("click", calc);
+});
