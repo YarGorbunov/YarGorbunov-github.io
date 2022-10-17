@@ -19,6 +19,8 @@ function calc() {
 function count(event){
     let select = document.getElementById("product-type");
     let amount = document.getElementById("amount-2");
+    let result = document.getElementById("result-2");
+    result.innerHTML="";
     amount.style.display="block";
     let sizelabel=document.querySelectorAll("label.radio");
     let checkboxlabel=document.querySelector("label.checkbox");
@@ -42,11 +44,13 @@ function count(event){
     let size=document.querySelectorAll("label.radio input");
     let checkbox=document.querySelector("label.checkbox input");
     if (select.value==='1'){
-        
+        result.innerHTML=100*amount.value;
     } else if (select.value==='2'){
-
+        if(size[0].checked===true) result.innerHTML=200*amount.value;
+        else if(size[1].checked===true) result.innerHTML=300*amount.value;
     } else if (select.value==='3'){
-
+        if(checkbox.checked===false) result.innerHTML=400*amount.value;
+        else result.innerHTML=500*amount.value;
     }
 }
 
@@ -57,4 +61,8 @@ window.addEventListener("DOMContentLoaded", function () {
     select.addEventListener("change", function(){ count("change");});
     let amount = document.getElementById("amount-2");
     amount.addEventListener("input", function() { count("input");});
+    let size=document.querySelectorAll("label.radio input");
+    size.forEach(function(size1){ size1.addEventListener("change",function(){ count("input");});});
+    let checkbox=document.querySelector("label.checkbox input");
+    checkbox.addEventListener("change", function(){ count("input");});
 });
