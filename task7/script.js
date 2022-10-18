@@ -16,30 +16,11 @@ function calc() {
     }
 }
 
-function count(event){
+function count(){
     let select = document.getElementById("product-type");
     let amount = document.getElementById("amount-2");
     let result = document.getElementById("result-2");
     result.innerHTML="";
-    amount.style.display="block";
-    let sizelabel=document.querySelectorAll("label.radio");
-    let checkboxlabel=document.querySelector("label.checkbox");
-    if (event==="change") {
-        if (select.value==='1'){
-            sizelabel[0].style.display="none";
-            sizelabel[1].style.display="none";
-            checkboxlabel.style.display="none";
-        } else if (select.value==='2'){
-            sizelabel[0].style.display="block";
-            sizelabel[1].style.display="block";
-            checkboxlabel.style.display="none";
-        } else if (select.value==='3'){
-            sizelabel[0].style.display="none";
-            sizelabel[1].style.display="none";
-            checkboxlabel.style.display="block";
-        }
-        amount.value="";
-    }
     if (amount.value==="" || isNaN(Number(amount.value))) return 0;
     let size=document.querySelectorAll("label.radio input");
     let checkbox=document.querySelector("label.checkbox input");
@@ -54,15 +35,41 @@ function count(event){
     }
 }
 
+function change() {
+    let select = document.getElementById("product-type");
+    let amount = document.getElementById("amount-2");
+    let result = document.getElementById("result-2");
+    result.innerHTML="";
+    amount.style.display="block";
+    let sizelabel=document.querySelectorAll("label.radio");
+    let checkboxlabel=document.querySelector("label.checkbox");
+    if (select.value==='1'){
+        sizelabel[0].style.display="none";
+        sizelabel[1].style.display="none";
+        checkboxlabel.style.display="none";
+    } else if (select.value==='2'){
+        sizelabel[0].style.display="block";
+        sizelabel[1].style.display="block";
+        checkboxlabel.style.display="none";
+    } else if (select.value==='3'){
+        sizelabel[0].style.display="none";
+        sizelabel[1].style.display="none";
+        checkboxlabel.style.display="block";
+    }
+    amount.value="";
+}
+
 window.addEventListener("DOMContentLoaded", function () {
     let button = document.getElementById("calcbutton");
     button.addEventListener("click", calc);
     let select = document.getElementById("product-type");
-    select.addEventListener("change", function(){ count("change");});
+    select.addEventListener("change", change);
     let amount = document.getElementById("amount-2");
-    amount.addEventListener("input", function() { count("input");});
+    amount.addEventListener("input", count);
     let size=document.querySelectorAll("label.radio input");
-    size.forEach(function(size1){ size1.addEventListener("change",function(){ count("input");});});
+    size.forEach(function(size1){ size1.addEventListener("change", count);});
     let checkbox=document.querySelector("label.checkbox input");
-    checkbox.addEventListener("change", function(){ count("input");});
+    checkbox.addEventListener("change", count);
 });
+
+$(document).on("DOMContentLoaded",function(){$("#calcbutton").on("click",function(){$("#calcbutton").fadeOut(600);});});
