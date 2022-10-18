@@ -1,0 +1,29 @@
+@font-face {
+	font-family:RobotoSlab-Regular;
+	src: url(RobotoSlab-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-Regular;
+	src: url(Nunito-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-SemiBoldItalic;
+	src: url(Nunito-SemiBoldItalic.ttf);
+}
+body {
+	color:#2718dc;
+}
+main {
+	font-family:Nunito-Regular;
+	max-width:960px;
+	font-size: 5vw;
+}
+.input {
+	display: none;
+}
+
+@media screen and (min-width:576px) {
+	main {
+		font-size: 16px;
+	}
+}

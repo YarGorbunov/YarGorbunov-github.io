@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+	<title>Задание 6</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="shortcut icon" href="icon.png">
+	<meta name="viewport" content="width=device-width initial-scale=1">
+	<script src="script.js" defer></script>
+</head>
+<body class="container-fluid m-0 p-0">
+	<form>
+		<h2>Калькулятор</h2>
+		<p class="mb-0">Количество:</p>
+		<input id="amount" placeholder="Количество">
+		<p class="mb-0">Цена за единицу:</p>
+		<input id="price" placeholder="Цена за единицу"> <br>
+		<button type="button" class="my-2" id="calcbutton">Считать</button>
+		<p id="result"></p>
+	</form>
+	<form>
+		<select id="product-type">
+			<option disabled selected>Тип товара</option>
+			<option value="1">Ящерица</option>
+			<option value="2">Паук</option>
+			<option value="3">Змея</option>
+		</select>
+		<label class="input radio"><input type="radio" name="size" value="0" checked> Маленький</label>
+		<label class="input radio"><input type="radio" name="size" value="1"> Большой</label>
+		<label class="input checkbox"><input type="checkbox"> ядовитая</label>
+		<input class="input amount" id="amount-2" placeholder="Количество">
+		<p id="result-2"></p>
+	</form>
+</body>
+</html>
