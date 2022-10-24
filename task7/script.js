@@ -59,6 +59,61 @@ function change() {
     amount.value="";
 }
 
+let arr=new Array();
+function sliderResize(){
+    if(document.documentElement.clientWidth>=576){
+        let m=4;
+        let n=4;
+        arr.length=m;
+        for(let i=0;i<arr.length;i++){
+            arr[i]=new Array(n);
+            for(let j=0;j<arr[i].length;j++){
+                arr[i][j]=document.getElementById("sliderImg-"+(n*i+j+1));
+                if (i===0) arr[i][j].style.display="block";
+                else arr[i][j].style.display="none";
+            }
+        }
+    }else {
+        let m=8;
+        let n=2;
+        arr.length=m;
+        for(let i=0;i<arr.length;i++){
+            arr[i]=new Array(n);
+            for(let j=0;j<arr[i].length;j++){
+                arr[i][j]=document.getElementById("sliderImg-"+(n*i+j+1));
+                if (i===0) arr[i][j].style.display="block";
+                else arr[i][j].style.display="none";
+            }
+        }
+    }
+}
+
+function sliderToLeft(){
+    let active;
+    for(let i=0;i<arr.length;i++)
+        if (arr[i][0].style.display==="block"){
+            active=i;
+            break;
+        }
+    arr[active].forEach(function(el){el.style.display="none";});
+    active--;
+    if(active===-1) active+=arr.length;
+    arr[active].forEach(function(el){el.style.display="block";});
+}
+
+function sliderToRight(){
+    let active;
+    for(let i=0;i<arr.length;i++)
+        if (arr[i][0].style.display==="block"){
+            active=i;
+            break;
+        }
+    arr[active].forEach(function(el){el.style.display="none";});
+    active++;
+    if(active===arr.length) active=0;
+    arr[active].forEach(function(el){el.style.display="block";});
+}
+
 window.addEventListener("DOMContentLoaded", function () {
     let button = document.getElementById("calcbutton");
     button.addEventListener("click", calc);
@@ -70,6 +125,10 @@ window.addEventListener("DOMContentLoaded", function () {
     size.forEach(function(size1){ size1.addEventListener("change", count);});
     let checkbox=document.querySelector("label.checkbox input");
     checkbox.addEventListener("change", count);
+    window.addEventListener("resize",sliderResize);
+    sliderResize();
+    let buttonLeft = document.getElementById("button-left");
+    buttonLeft.addEventListener("click",sliderToLeft);
+    let buttonRight = document.getElementById("button-right");
+    buttonRight.addEventListener("click",sliderToRight);
 });
-
-$(document).on("DOMContentLoaded",function(){$("#calcbutton").on("click",function(){$("#calcbutton").fadeOut(600);});});
