@@ -60,7 +60,9 @@ function change() {
 }
 
 let arr=new Array();
+let pages=new Array(8);
 function sliderResize(){
+    if (arr.length===0 || document.documentElement.clientWidth>=576 && arr.length!=4 || document.documentElement.clientWidth<576 && arr.length!=8){
     if(document.documentElement.clientWidth>=576){
         let m=4;
         let n=4;
@@ -86,6 +88,12 @@ function sliderResize(){
             }
         }
     }
+    for(let i=0;i<pages.length;i++){
+        if (i<arr.length) pages[i].style.display="block";
+        else pages[i].style.display="none";
+    }
+    pages[0].checked=true;
+    }
 }
 
 function sliderToLeft(){
@@ -99,6 +107,7 @@ function sliderToLeft(){
     active--;
     if(active===-1) active+=arr.length;
     arr[active].forEach(function(el){el.style.display="block";});
+    pages[active].checked=true;
 }
 
 function sliderToRight(){
@@ -112,6 +121,18 @@ function sliderToRight(){
     active++;
     if(active===arr.length) active=0;
     arr[active].forEach(function(el){el.style.display="block";});
+    pages[active].checked=true;
+}
+
+function pageChange(page){
+    let active;
+    for(let i=0;i<arr.length;i++)
+        if (arr[i][0].style.display==="block"){
+            active=i;
+            break;
+        }
+    arr[active].forEach(function(el){el.style.display="none";});
+    arr[page].forEach(function(el){el.style.display="block";});
 }
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -126,9 +147,12 @@ window.addEventListener("DOMContentLoaded", function () {
     let checkbox=document.querySelector("label.checkbox input");
     checkbox.addEventListener("change", count);
     window.addEventListener("resize",sliderResize);
-    sliderResize();
     let buttonLeft = document.getElementById("button-left");
     buttonLeft.addEventListener("click",sliderToLeft);
     let buttonRight = document.getElementById("button-right");
     buttonRight.addEventListener("click",sliderToRight);
+    let pager=document.getElementById("pager");
+    pages=pager.querySelectorAll("input");
+    pages.forEach(function(button, page){button.addEventListener("change", function(){pageChange(page);} );});
+    sliderResize();
 });

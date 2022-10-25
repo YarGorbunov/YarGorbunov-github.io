@@ -30,6 +30,15 @@ main {
 #button-right, #button-left{
 	background-color: blanchedalmond;
 }
+#button-right:hover, #button-left:hover{
+	font-weight: 1000;
+}
+#pager input{
+	display: none;
+}
+#pager {
+	gap:5%;
+}
 
 @media screen and (min-width:576px) {
 	main {
