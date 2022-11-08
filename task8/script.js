@@ -52,7 +52,6 @@ function sendForm(){
         checkbox.checked=false;
         sendRequest.onreadystatechange = function(){
             if(this.readyState == 4){
-                console.log(this.response);
                 localStorage.clear();
                 result.style.color="#2718dc";
                 result.innerHTML="Успешно отправлено";
