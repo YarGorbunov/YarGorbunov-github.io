@@ -1,0 +1,29 @@
+Сначала копируем нужный запрос, затем в сmd пишем telnet u53012.kubsu-dev.ru 80 и жмем Enter. После этого тыкаем правой кнопкой по окну консоли (таким образом вставляя запрос что копировали ранее) и жмем 2 раза Enter. Если все прошло хорошо покажется HTTP-ответ от сервера в виде текста
+1)
+GET /index.html HTTP/1.0
+2)
+GET /task_2/ HTTP/1.1
+Host: u53012.kubsu-dev.ru
+3)
+HEAD /task_2/file.tar.gz HTTP/1.1
+Host: u53012.kubsu-dev.ru
+4)
+HEAD /task_2/image.png HTTP/1.1
+Host: u53012.kubsu-dev.ru
+5)
+POST /task_2/index.php HTTP/1.1
+Host: u53012.kubsu-dev.ru
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 10
+
+comment=hi
+6)
+GET /task_2/file.tar.gz HTTP/1.1
+Host: u53012.kubsu-dev.ru
+Range: bytes=0-100
+7)
+HEAD /task_2/index.php HTTP/1.1
+Host: u53012.kubsu-dev.ru
+
+u52816.kubsu-dev.ru
+u53012.kubsu-dev.ru/task_1/
