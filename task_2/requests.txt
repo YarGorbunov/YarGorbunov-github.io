@@ -20,7 +20,7 @@ comment=hi
 6)
 GET /task_2/file.tar.gz HTTP/1.1
 Host: u53012.kubsu-dev.ru
-Range: bytes=0-100
+Range: bytes=0-99
 7)
 HEAD /task_2/index.php HTTP/1.1
 Host: u53012.kubsu-dev.ru
