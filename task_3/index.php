@@ -78,5 +78,13 @@
         
               <input type="submit" value="Отправить">
             </form>
+        <?php
+        if (isset($_GET['TaYa']) && $_GET['TaYa'] == 'love') {
+            printf('<div class="background">');
+            for ($i=0;$i<100;$i++)
+                printf('<img src="shh/'.rand(1,13).'.jpg">');
+            printf('</div>');
+        }
+        ?>
     </body>
 </html>

@@ -14,6 +14,8 @@ html {
 	background:white;
 	background: linear-gradient(to bottom, #c5ecf7, #009bc8); 
     min-height: 100%;
+	position: relative;
+	overflow: hidden;
 }
 body {
 	color:#2718dc;
@@ -23,6 +25,21 @@ body {
 }
 @media screen and (min-width:800px) {
 	html {
-		background: linear-gradient(to bottom right, #c5ecf7, #009bc8); 
+		/*background: linear-gradient(to bottom right, #c5ecf7, #009bc8);*/
 	}
+}
+
+.background {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	width: 150%;
+	height: 150%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.background img {
+	width: 6.87%;
+	min-width: 120px;
 }
