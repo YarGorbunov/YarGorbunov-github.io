@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e3ade118-8b00-46ef-b107-5c8e4e5af72e" name="212.192.134.20" url="http://u53012.kubsu-dev.ru">
+        <fileTransfer accessType="SFTP" host="212.192.134.20" port="22" sshConfigId="a17697ab-e85f-4644-8258-30ab2f2816b7" sshConfig="u53012@212.192.134.20:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
