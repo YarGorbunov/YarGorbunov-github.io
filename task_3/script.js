@@ -8,6 +8,9 @@ form.addEventListener("submit", function (e) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             alert(xhr.statusText);
+            if (xhr.status === 200) {
+                form.reset();
+            }
         }
     };
 });
