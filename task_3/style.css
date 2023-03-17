@@ -32,8 +32,8 @@ body {
 .background {
 	position: absolute;
 	z-index: -1;
-	top: 0;
-	left: 0;
+	top: -5%;
+	left: -5%;
 	width: 150%;
 	height: 150%;
 	display: flex;

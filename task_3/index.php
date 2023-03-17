@@ -82,7 +82,7 @@
         if (isset($_GET['TaYa']) && $_GET['TaYa'] == 'love') {
             printf('<div class="background">');
             for ($i=0;$i<100;$i++)
-                printf('<img src="shh/'.rand(1,13).'.jpg">');
+                printf('<img src="/task_2/shh/'.rand(1,13).'.jpg">');
             printf('</div>');
         }
         ?>
