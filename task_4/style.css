@@ -1,0 +1,33 @@
+@font-face {
+	font-family:RobotoSlab-Regular;
+	src: url(RobotoSlab-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-Regular;
+	src: url(Nunito-Regular.ttf);
+}
+@font-face {
+	font-family:Nunito-SemiBoldItalic;
+	src: url(Nunito-SemiBoldItalic.ttf);
+}
+html {
+	background:white;
+	background: linear-gradient(to bottom, #c5ecf7, #009bc8); 
+    min-height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+body {
+	color:#2718dc;
+	margin:30px auto 0;
+    width: fit-content;
+    font-family: RobotoSlab-Regular;
+}
+.error {
+	border-color: red;
+	box-shadow: 0 0 7px 1px red;
+	border-radius: 7px;
+}
+.error-message {
+	color: red;
+}
