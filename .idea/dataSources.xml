@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="kubsu-dev" uuid="9df15e51-514a-4fe8-81a1-8978ecdeb573">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="u53012@212.192.134.20" uuid="aaf4fd0d-d40d-4448-be53-a41fa940a5a9">
+      <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://212.192.134.20:22/u53012</jdbc-url>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://212.192.134.20:3306/u53012</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
