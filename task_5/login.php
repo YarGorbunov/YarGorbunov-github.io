@@ -54,7 +54,7 @@ else {
     $user = 'u53012';
     $pass = '2656986';
     $db = new PDO('mysql:host=localhost;dbname=u53012', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
-    $stmt = $db->prepare("SELECT * FROM Person_Login WHERE p_login = :p_login && p_pass = :p_pass;");
+    $stmt = $db->prepare("SELECT * FROM Person WHERE p_login = :p_login && p_pass = :p_pass;");
     $stmtErr = $stmt->execute(['p_login' => $_POST['login'], 'p_pass' => hash("adler32",$_POST['pass'])]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$result) {
@@ -68,9 +68,11 @@ else {
     // Записываем ID пользователя.
     $_SESSION['uid'] = $result['p_id'];
 
+    /*
     $stmt = $db->prepare("SELECT * FROM Person WHERE p_id = :p_id;");
     $stmtErr = $stmt->execute(['p_id' => $_SESSION['uid']]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    */
     setcookie('name_value', $result['p_name'], time() + 30 * 24 * 60 * 60);
     setcookie('email_value', $result['mail'], time() + 30 * 24 * 60 * 60);
     setcookie('year_value', $result['year'], time() + 30 * 24 * 60 * 60);

@@ -203,13 +203,21 @@ else {
         }
     } else {
         try {
-            $stmt = $db->prepare("INSERT INTO Person (p_name, mail, year, gender, limbs_num, biography) VALUES (:name, :mail, :year, :gender, :limbs_num, :biography);");
-            $stmtErr =  $stmt -> execute(['name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography']]);
+            srand(time());
+            $login = strval(rand(10000,99999));
+            $pass = strval(rand(10000,99999));
+            $passcode = hash("adler32",intval($pass));
+            $stmt = $db->prepare("INSERT INTO Person (p_name, mail, year, gender, limbs_num, biography, p_login, p_pass) VALUES (:name, :mail, :year, :gender, :limbs_num, :biography, :p_login, :p_pass);");
+            $stmtErr =  $stmt -> execute(['name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography'],'p_login' => $login, 'p_pass' => $passcode]);
             if (!$stmtErr) {
                 header("HTTP/1.1 500 Some server issue");
                 exit();
             }
             $strId = $db->lastInsertId();
+            $_SESSION['login'] = $login;
+            $_SESSION['uid'] = intval($strId);
+            setcookie('login', $login, time() + 30 * 24 * 60 * 60);
+            setcookie('pass', $pass, time() + 30 * 24 * 60 * 60);
             if (isset($_POST['powers'])) {
                 foreach ($_POST['powers'] as $item) {
                     switch ($item) {
@@ -232,16 +240,6 @@ else {
                     }
                 }
             }
-            srand(intval($strId));
-            $login = strval(rand(10000,99999));
-            $pass = strval(rand(10000,99999));
-            $passcode = hash("adler32",intval($pass));
-            $stmt = $db->prepare("INSERT INTO Person_Login (p_id, p_login, p_pass) VALUES (:p_id, :p_login, :p_pass);");
-            $stmtErr =  $stmt -> execute(['p_id' => intval($strId),'p_login' => $login, 'p_pass' => $passcode]);
-            $_SESSION['login'] = $login;
-            $_SESSION['uid'] = intval($strId);
-            setcookie('login', $login, time() + 30 * 24 * 60 * 60);
-            setcookie('pass', $pass, time() + 30 * 24 * 60 * 60);
         }
         catch(PDOException $e){
             header("HTTP/1.1 500 Some server issue");

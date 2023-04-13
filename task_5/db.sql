@@ -6,6 +6,8 @@ CREATE TABLE Person (
   gender BOOLEAN NOT NULL DEFAULT 0,
   limbs_num int(1) NOT NULL DEFAULT 4,
   biography varchar(256) NOT NULL DEFAULT '',
+  p_login char(5) NOT NULL,
+  p_pass char(8) NOT NULL,
   PRIMARY KEY (p_id)
 );
 
@@ -24,12 +26,4 @@ CREATE TABLE Person_Ability (
   a_id int(10) unsigned NOT NULL,
   FOREIGN KEY (p_id)  REFERENCES Person (p_id),
   FOREIGN KEY (a_id) REFERENCES Ability (a_id)
-);
-
-CREATE TABLE Person_Login (
-    p_id int(10) unsigned NOT NULL,
-    p_login char(5) NOT NULL,
-    p_pass char(8) NOT NULL,
-    FOREIGN KEY (p_id)  REFERENCES Person (p_id),
-    PRIMARY KEY (p_id)
 );
