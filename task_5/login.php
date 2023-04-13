@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         print ('<div>Вы авторизованы как '. $_SESSION['login'] . ', uid ' . $_SESSION['uid'] . '</div>')
         ?>
         <a href="./login.php?exit=1">Выйти</a>
+        <a href="./">Главная страница</a>
         <?php
         exit();
     } else {
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         <input name="pass" required>
         <input type="submit" value="Войти">
     </form>
-
+        <a href="./">Главная страница</a>
     <?php
     }
 }
@@ -68,11 +69,6 @@ else {
     // Записываем ID пользователя.
     $_SESSION['uid'] = $result['p_id'];
 
-    /*
-    $stmt = $db->prepare("SELECT * FROM Person WHERE p_id = :p_id;");
-    $stmtErr = $stmt->execute(['p_id' => $_SESSION['uid']]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    */
     setcookie('name_value', $result['p_name'], time() + 30 * 24 * 60 * 60);
     setcookie('email_value', $result['mail'], time() + 30 * 24 * 60 * 60);
     setcookie('year_value', $result['year'], time() + 30 * 24 * 60 * 60);
