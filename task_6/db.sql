@@ -27,3 +27,12 @@ CREATE TABLE Person_Ability (
   FOREIGN KEY (p_id)  REFERENCES Person (p_id),
   FOREIGN KEY (a_id) REFERENCES Ability (a_id)
 );
+
+CREATE TABLE Admin (
+    ad_id int(10) unsigned NOT NULL AUTO_INCREMENT,
+    login char(5) NOT NULL,
+    pass char(32) NOT NULL,
+    PRIMARY KEY (ad_id)
+);
+
+INSERT INTO Admin (login, pass) VALUES ('admin','202cb962ac59075b964b07152d234b70');
