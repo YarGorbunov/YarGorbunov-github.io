@@ -49,6 +49,114 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
         $stmtErr = $stmt->execute(['p_id' => $_GET['delete']]);
         header('Location: ./admin.php');
     }
+    if (!empty($_GET['change'])) {
+        $stmt = $db->prepare("SELECT * FROM Person WHERE p_id=:p_id;");
+        $stmtErr = $stmt->execute(['p_id' => $_GET['change']]);
+        $person = $stmt->fetch();
+        $stmt = $db->prepare("SELECT * FROM Person_Ability WHERE p_id=:p_id;");
+        $stmtErr = $stmt->execute(['p_id' => $_GET['change']]);
+        $personAbilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $person['invincibility']=0;
+        $person['noclip']=0;
+        $person['levitation']=0;
+        foreach ($personAbilities as $personAbility) {
+            switch ($personAbility['a_id']) {
+                case 1:
+                    $person['invincibility']=1;
+                    break;
+                case 3:
+                    $person['noclip']=1;
+                    break;
+                case 2:
+                    $person['levitation']=1;
+                    break;
+            }
+        }
+        ?>
+    <p>Изменение данный пользователя с ID <?php print ($person['p_id']);?></p>
+        <form action="" method="POST">
+            <input name="uid"
+                   required <?php print('value="' . $person['p_id'] . '"'); ?>> <br>
+    <label>
+        Имя:<br>
+        <input name="name"
+               placeholder="Имя" required <?php print('value="' . $person['p_name'] . '"'); ?>>
+</label><br>
+
+<label>
+    E-mail:<br>
+    <input name="email"
+           type="email"
+           placeholder="e-mail" required <?php print('value="' . $person['mail'] . '"');  ?>>
+</label><br>
+
+<label>
+    Год рождения:<br>
+    <select name="year">
+        <?php
+        for ($i = 1923; $i <= 2023; $i++) {
+            printf('<option value="%d"'. (intval($person['year'])==$i ? 'selected' : '') .'>%d год</option>', $i, $i);
+        }
+        ?>
+    </select>
+</label><br>
+
+Пол: <br>
+<label><input type="radio"
+              name="gender" value="0" required <?php if(intval($person['gender'])==0) print ("checked"); ?>>
+    Мужской</label>
+<label><input type="radio"
+              name="gender" value="1" required <?php if(intval($person['gender'])==1) print ("checked");?>>
+    Женский</label><br>
+
+Количество: <br>
+<label><input type="radio"
+              name="limbs" value="1" required <?php if(!$person['limbs_num']=='' && intval($person['limbs_num'])==1) print ("checked");?>>
+    1</label>
+<label><input type="radio"
+              name="limbs" value="2" required <?php if(!$person['limbs_num']=='' && intval($person['limbs_num'])==2) print ("checked");?>>
+    2</label>
+<label><input type="radio"
+              name="limbs" value="3" required <?php if(!$person['limbs_num']=='' && intval($person['limbs_num'])==3) print ("checked");?>>
+    3</label>
+<label><input type="radio"
+              name="limbs" value="4" required <?php if(!$person['limbs_num']=='' && intval($person['limbs_num'])==4) print ("checked");?>>
+    4</label><br>
+
+<label>
+    Суперсилы:
+    <br>
+    <select name="powers[]"
+            multiple="multiple">
+        <option value="Invincibility" <?php if(intval($person['invincibility'])==1) print ("selected") ?>>Бессмертие</option>
+        <option value="Noclip" <?php if(intval($person['noclip'])==1) print ("selected") ?>>Хождение сквозь стены</option>
+        <option value="Levitation" <?php if(intval($person['levitation'])==1) print ("selected") ?>>Левитация</option>
+    </select>
+</label><br>
+
+<label>
+    Биография:<br>
+    <textarea name="biography"><?php print($person['biography']); ?></textarea>
+</label><br>
+
+            <label>
+                Логин:<br>
+                <input name="p_login"
+                       placeholder="Логин" required <?php print('value="' . $person['p_login'] . '"'); ?>>
+            </label><br>
+
+            <label>
+                Пароль:<br>
+                <input name="p_pass"
+                       placeholder="" required>
+            </label><br>
+
+
+<input type="submit" value="Отправить">
+</form>
+<?php
+    exit();
+    }
     print('Вы успешно авторизовались и видите защищенные паролем данные.');
 
     $stmt = $db->prepare("SELECT * FROM Person ORDER BY p_id;");
@@ -72,6 +180,7 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
 			<td>Хеш пароля</td>
 			<td>Способности</td>
 			<td>Удалить</td>
+			<td>Изменить</td>
 		</tr>
 	</thead>
 	<tbody>');
@@ -100,6 +209,7 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
         }
         print ('</td>');
         print ('<td><a href="./admin.php?delete=' . $person['p_id'] . '">Удалить данные</a></td>');
+        print ('<td><a href="./admin.php?change=' . $person['p_id'] . '">Изменить данные</a></td>');
         print ('</tr>');
     }
     print ('</tbody>
@@ -125,6 +235,32 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
     }
 
 } else {
-
+    $stmt = $db->prepare("UPDATE Person SET p_name= :name, mail= :mail, year= :year, gender= :gender, limbs_num= :limbs_num, biography= :biography, p_login=:p_login, p_pass=:p_pass where p_id = :p_id");
+    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography'], 'p_login' => $_POST['p_login'], 'p_pass' => hash("adler32",$_POST['p_pass'])]);
+    $stmt = $db->prepare("DELETE FROM Person_Ability WHERE p_id=:p_id;");
+    $stmtErr = $stmt->execute(['p_id' => $_POST['uid']]);
+    if (isset($_POST['powers'])) {
+        foreach ($_POST['powers'] as $item) {
+            switch ($item) {
+                case "Invincibility":
+                    $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
+                    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => 1]);
+                    break;
+                case "Noclip":
+                    $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
+                    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => 3]);
+                    break;
+                case "Levitation":
+                    $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
+                    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => 2]);
+                    break;
+            }
+            if (!$stmtErr) {
+                header("HTTP/1.1 500 Some server issue");
+                exit();
+            }
+        }
+    }
+    header('Location: admin.php');
 }
 
