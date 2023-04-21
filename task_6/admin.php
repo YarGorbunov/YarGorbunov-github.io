@@ -56,21 +56,37 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
         $stmt = $db->prepare("SELECT * FROM Person_Ability WHERE p_id=:p_id;");
         $stmtErr = $stmt->execute(['p_id' => $_GET['change']]);
         $personAbilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $person['invincibility']=0;
-        $person['noclip']=0;
-        $person['levitation']=0;
+        $stmt = $db->prepare("SELECT * FROM Ability;");
+        $stmtErr =  $stmt -> execute();
+        $abilities = $stmt->fetchAll();
+        foreach ($abilities as $ability) {
+            $person[$ability['a_name']] = 0;
+        }
+        /*
+        $person['Invincibility']=0;
+        $person['Noclip']=0;
+        $person['Levitation']=0;
+        */
         foreach ($personAbilities as $personAbility) {
+            foreach ($abilities as $ability) {
+                if ($ability['a_id'] == $personAbility['a_id']) {
+                    $person[$ability['a_name']]=1;
+                    break;
+                }
+            }
+            /*
             switch ($personAbility['a_id']) {
                 case 1:
-                    $person['invincibility']=1;
+                    $person['Invincibility']=1;
                     break;
                 case 3:
-                    $person['noclip']=1;
+                    $person['Noclip']=1;
                     break;
                 case 2:
-                    $person['levitation']=1;
+                    $person['Levitation']=1;
                     break;
             }
+            */
         }
         ?>
     <p>Изменение данный пользователя с ID <?php print ($person['p_id']);?></p>
@@ -128,9 +144,9 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
     <br>
     <select name="powers[]"
             multiple="multiple">
-        <option value="Invincibility" <?php if(intval($person['invincibility'])==1) print ("selected") ?>>Бессмертие</option>
-        <option value="Noclip" <?php if(intval($person['noclip'])==1) print ("selected") ?>>Хождение сквозь стены</option>
-        <option value="Levitation" <?php if(intval($person['levitation'])==1) print ("selected") ?>>Левитация</option>
+        <option value="Invincibility" <?php if(intval($person['Invincibility'])==1) print ("selected") ?>>Бессмертие</option>
+        <option value="Noclip" <?php if(intval($person['Noclip'])==1) print ("selected") ?>>Хождение сквозь стены</option>
+        <option value="Levitation" <?php if(intval($person['Levitation'])==1) print ("selected") ?>>Левитация</option>
     </select>
 </label><br>
 
@@ -239,8 +255,19 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
     $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography'], 'p_login' => $_POST['p_login'], 'p_pass' => hash("adler32",$_POST['p_pass'])]);
     $stmt = $db->prepare("DELETE FROM Person_Ability WHERE p_id=:p_id;");
     $stmtErr = $stmt->execute(['p_id' => $_POST['uid']]);
+    $stmt = $db->prepare("SELECT * FROM Ability;");
+    $stmtErr =  $stmt -> execute();
+    $abilities = $stmt->fetchAll();
     if (isset($_POST['powers'])) {
         foreach ($_POST['powers'] as $item) {
+            foreach ($abilities as $ability) {
+                if ($ability['a_name'] == $item) {
+                    $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
+                    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => $ability['a_id']]);
+                    break;
+                }
+            }
+            /*
             switch ($item) {
                 case "Invincibility":
                     $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
@@ -255,6 +282,7 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
                     $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => 2]);
                     break;
             }
+            */
             if (!$stmtErr) {
                 header("HTTP/1.1 500 Some server issue");
                 exit();

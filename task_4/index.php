@@ -69,9 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $values['limbs'] = empty($_COOKIE['limbs_value']) ? '' : $_COOKIE['limbs_value'];
     $values['biography'] = empty($_COOKIE['biography_value']) ? '' : $_COOKIE['biography_value'];
     $values['check'] = !isset($_COOKIE['check_value']) ? '' : $_COOKIE['check_value'];
-    $values['invincibility'] = !isset($_COOKIE['invincibility_value']) ? '' : $_COOKIE['invincibility_value'];
-    $values['noclip'] = !isset($_COOKIE['noclip_value']) ? '' : $_COOKIE['noclip_value'];
-    $values['levitation'] = !isset($_COOKIE['levitation_value']) ? '' : $_COOKIE['levitation_value'];
+    $values['invincibility'] = !isset($_COOKIE['Invincibility_value']) ? '' : $_COOKIE['Invincibility_value'];
+    $values['noclip'] = !isset($_COOKIE['Noclip_value']) ? '' : $_COOKIE['Noclip_value'];
+    $values['levitation'] = !isset($_COOKIE['Levitation_value']) ? '' : $_COOKIE['Levitation_value'];
 
 
     // Включаем содержимое файла form.php.
@@ -80,6 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     include('form.php');
 } // Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
 else {
+    $user = 'u53012';
+    $pass = '2656986';
+    $db = new PDO('mysql:host=localhost;dbname=u53012', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
     // Проверяем ошибки.
     $errors = FALSE;
     if (empty($_POST['name']) || !preg_match('/^[A-Z][a-z]+$/AD', $_POST['name'])) {
@@ -114,22 +117,38 @@ else {
     } else {
         setcookie('limbs_value', $_POST['limbs'], time() + 30 * 24 * 60 * 60);
     }
-    setcookie('invincibility_value', '', 100000);
-    setcookie('noclip_value', '', 100000);
-    setcookie('levitation_value', '', 100000);
+    $stmt = $db->prepare("SELECT * FROM Ability;");
+    $stmtErr =  $stmt -> execute();
+    $abilities = $stmt->fetchAll();
+    foreach ($abilities as $ability) {
+        setcookie($ability['a_name'].'_value', '', 100000);
+    }
+    /*
+    setcookie('Invincibility_value', '', 100000);
+    setcookie('Noclip_value', '', 100000);
+    setcookie('Levitation_value', '', 100000);
+    */
     if (isset($_POST['powers'])) {
         foreach ($_POST['powers'] as $item) {
+            foreach ($abilities as $ability) {
+                if ($ability['a_name'] == $item) {
+                    setcookie($item.'_value', '1', time() + 30 * 24 * 60 * 60);
+                    break;
+                }
+            }
+            /*
             switch ($item) {
                 case "Invincibility":
-                    setcookie('invincibility_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Invincibility_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
                 case "Noclip":
-                    setcookie('noclip_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Noclip_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
                 case "Levitation":
-                    setcookie('levitation_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Levitation_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
             }
+            */
         }
     }
     setcookie('biography_value', $_POST['biography'], time() + 30 * 24 * 60 * 60);
@@ -154,9 +173,6 @@ else {
 
 
     // Сохранение в БД.
-    $user = 'u53012';
-    $pass = '2656986';
-    $db = new PDO('mysql:host=localhost;dbname=u53012', $user, $pass, [PDO::ATTR_PERSISTENT => true]);
 
     try {
         $stmt = $db->prepare("INSERT INTO Person (p_name, mail, year, gender, limbs_num, biography) VALUES (:name, :mail, :year, :gender, :limbs_num, :biography);");
@@ -168,6 +184,14 @@ else {
         $strId = $db->lastInsertId();
         if (isset($_POST['powers'])) {
             foreach ($_POST['powers'] as $item) {
+                foreach ($abilities as $ability) {
+                    if ($ability['a_name'] == $item) {
+                        $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
+                        $stmtErr = $stmt->execute(['p_id' => intval($strId), 'a_id' => $ability['a_id']]);
+                        break;
+                    }
+                }
+                /*
                 switch ($item) {
                     case "Invincibility":
                         $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
@@ -182,6 +206,7 @@ else {
                         $stmtErr = $stmt->execute(['p_id' => intval($strId), 'a_id' => 2]);
                         break;
                 }
+                */
                 if (!$stmtErr) {
                     header("HTTP/1.1 500 Some server issue");
                     exit();

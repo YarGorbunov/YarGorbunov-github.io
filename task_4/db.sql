@@ -16,7 +16,7 @@ CREATE TABLE Ability (
 );
 
 INSERT INTO Ability (a_name) VALUES ('Invincibility');
-INSERT INTO Ability (a_name) VALUES ('Fly');
+INSERT INTO Ability (a_name) VALUES ('Levitation');
 INSERT INTO Ability (a_name) VALUES ('Noclip');
 
 CREATE TABLE Person_Ability (

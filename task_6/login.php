@@ -78,22 +78,38 @@ else {
     $stmt = $db->prepare("SELECT * FROM Person_Ability WHERE p_id = :p_id;");
     $stmtErr = $stmt->execute(['p_id' => $_SESSION['uid']]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    setcookie('invincibility_value', '', 100000);
-    setcookie('noclip_value', '', 100000);
-    setcookie('levitation_value', '', 100000);
+    /*
+    setcookie('Invincibility_value', '', 100000);
+    setcookie('Noclip_value', '', 100000);
+    setcookie('Levitation_value', '', 100000);
+    */
+    $stmt = $db->prepare("SELECT * FROM Ability;");
+    $stmtErr =  $stmt -> execute();
+    $abilities = $stmt->fetchAll();
+    foreach ($abilities as $ability) {
+        setcookie($ability['a_name'].'_value', '', 100000);
+    }
     if ($result) {
         foreach ($result as $item) {
+            foreach ($abilities as $ability) {
+                if ($ability['a_id'] == $item['a_id']) {
+                    setcookie($ability['a_name'].'_value', '1', time() + 30 * 24 * 60 * 60);
+                    break;
+                }
+            }
+            /*
             switch ($item['a_id']) {
                 case 1:
-                    setcookie('invincibility_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Invincibility_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
                 case 3:
-                    setcookie('noclip_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Noclip_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
                 case 2:
-                    setcookie('levitation_value', '1', time() + 30 * 24 * 60 * 60);
+                    setcookie('Levitation_value', '1', time() + 30 * 24 * 60 * 60);
                     break;
             }
+            */
         }
     }
 
