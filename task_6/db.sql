@@ -6,8 +6,8 @@ CREATE TABLE Person (
   gender BOOLEAN NOT NULL DEFAULT 0,
   limbs_num int(1) NOT NULL DEFAULT 4,
   biography varchar(256) NOT NULL DEFAULT '',
-  p_login int(5) unsigned NOT NULL,
-  p_pass char(8) NOT NULL,
+  p_login int(5) unsigned,
+  p_pass char(8),
   PRIMARY KEY (p_id)
 );
 
