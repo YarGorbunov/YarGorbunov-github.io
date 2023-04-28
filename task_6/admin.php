@@ -88,11 +88,11 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
             }
             */
         }
+        setcookie('changed_uid', $person['p_id'], time() + 30 * 24 * 60 * 60);
         ?>
     <p>Изменение данный пользователя с ID <?php print ($person['p_id']);?></p>
         <form action="" method="POST">
-            <input name="uid"
-                   required <?php print('value="' . $person['p_id'] . '"'); ?>> <br>
+
     <label>
         Имя:<br>
         <input name="name"
@@ -252,9 +252,10 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
 
 } else {
     $stmt = $db->prepare("UPDATE Person SET p_name= :name, mail= :mail, year= :year, gender= :gender, limbs_num= :limbs_num, biography= :biography, p_login=:p_login, p_pass=:p_pass where p_id = :p_id");
-    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography'], 'p_login' => $_POST['p_login'], 'p_pass' => hash("adler32",$_POST['p_pass'])]);
+    $stmtErr = $stmt->execute(['p_id' => $_COOKIE['changed_uid'], 'name' => $_POST['name'],'mail' => $_POST['email'] , 'year' => $_POST['year'], 'gender' => $_POST['gender'], 'limbs_num' => $_POST['limbs'], 'biography' => $_POST['biography'], 'p_login' => $_POST['p_login'], 'p_pass' => hash("adler32",$_POST['p_pass'])]);
+    setcookie('changed_uid', '', 1);
     $stmt = $db->prepare("DELETE FROM Person_Ability WHERE p_id=:p_id;");
-    $stmtErr = $stmt->execute(['p_id' => $_POST['uid']]);
+    $stmtErr = $stmt->execute(['p_id' => $_COOKIE['changed_uid']]);
     $stmt = $db->prepare("SELECT * FROM Ability;");
     $stmtErr =  $stmt -> execute();
     $abilities = $stmt->fetchAll();
@@ -263,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD']=="GET") {
             foreach ($abilities as $ability) {
                 if ($ability['a_name'] == $item) {
                     $stmt = $db->prepare("INSERT INTO Person_Ability (p_id, a_id) VALUES (:p_id, :a_id);");
-                    $stmtErr = $stmt->execute(['p_id' => $_POST['uid'], 'a_id' => $ability['a_id']]);
+                    $stmtErr = $stmt->execute(['p_id' => $_COOKIE['changed_uid'], 'a_id' => $ability['a_id']]);
                     break;
                 }
             }
