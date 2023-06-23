@@ -162,7 +162,7 @@ else {
     if ($errors) {
         // При наличии ошибок перезагружаем страницу и завершаем работу скрипта.
         header('Location: index.php');
-        exit();
+        die();
     }
     // Удаляем Cookies с признаками ошибок.
     setcookie('name_error', '', 100000);
